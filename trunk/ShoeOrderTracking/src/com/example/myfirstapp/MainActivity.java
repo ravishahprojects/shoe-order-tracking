@@ -1,15 +1,9 @@
 package com.example.myfirstapp;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Iterator;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,13 +15,13 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.example.myfirstapp.listener.BtnClickListener;
 import com.example.myfirstapp.listener.SuccessHandler;
 import com.example.myfirstapp.util.Utility;
 
@@ -66,27 +60,7 @@ public class MainActivity extends Activity implements SuccessHandler {
 	private char[] requestData() throws IOException, ClientProtocolException {
 		String url = Constants.HTTP_SERVICE1_SVC + Constants.SEPARATOR
 				+ Constants.GET_WORK + Constants.SEPARATOR + "dept1";
-		char[] buffer = getHttpRequest(url);
-		return buffer;
-	}
-
-	private char[] getHttpRequest(String url) throws IOException,
-			ClientProtocolException {
-		DefaultHttpClient httpClient = new DefaultHttpClient();
-		HttpGet request = new HttpGet(url);
-
-		request.setHeader("Accept", "application/json");
-		request.setHeader("Content-type", "application/json");
-
-		HttpResponse response = httpClient.execute(request);
-		HttpEntity responseEntity = response.getEntity();
-
-		// Read response data into buffer
-		char[] buffer = new char[(int) responseEntity.getContentLength()];
-		InputStream stream = responseEntity.getContent();
-		InputStreamReader reader = new InputStreamReader(stream);
-		reader.read(buffer);
-		stream.close();
+		char[] buffer = Utility.getHttpRequest(url);
 		return buffer;
 	}
 
@@ -154,7 +128,7 @@ public class MainActivity extends Activity implements SuccessHandler {
 					Button btn = Utility.createAndGetButton(
 							Integer.valueOf(txtLabel.toString()).intValue(),
 							"Update Work", context);
-					ClickListener clickListener = new ClickListener();
+					BtnClickListener clickListener = new BtnClickListener();
 					clickListener.setHandler(this);
 					btn.setOnClickListener(clickListener);
 					tbrow.addView(btn);
@@ -176,71 +150,11 @@ public class MainActivity extends Activity implements SuccessHandler {
 		return true;
 	}
 
-	class ClickListener implements OnClickListener {
-
-		private SuccessHandler handler;
-
-		@Override
-		public void onClick(View v) {
-			Button btn = (Button) v;
-			int id = btn.getId();
-			try {
-				updateWork(id, btn);
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		public SuccessHandler getHandler() {
-			return handler;
-		}
-
-		public void setHandler(SuccessHandler handler) {
-			this.handler = handler;
-		}
-
-		private String updateWork(int id, Button btn)
-				throws ClientProtocolException, IOException {
-			String url = Constants.HTTP_SERVICE1_SVC + Constants.SEPARATOR
-					+ Constants.UPDATE_WORK + Constants.SEPARATOR + id;
-			// Utility.alert(url, context);
-			char[] response = getHttpRequest(url);
-			processUpdateWorkResponse(response, id, btn);
-			return response.toString();
-		}
-
-		private void processUpdateWorkResponse(char[] response, int id,
-				Button btn) {
-			String str = getString(response);
-			System.out.println("Response :::::::" + str);
-			// Show alerts based on the response
-			if (Constants.UPDATE_WORK_SUCCESS.equalsIgnoreCase(str)) {
-				handleSuccess(btn);
-			} else {
-				handleFailure(btn);
-			}
-		}
-
-		private void handleSuccess(Button v) {
-			handler.handleSuccess(v);
-		}
-	}
-
 	@Override
 	public void handleSuccess(View v) {
 		Button btn = (Button) v;
-		btn.setBackgroundColor(Color.CYAN);
+		btn.setBackgroundColor(Color.GREEN);
 		btn.setText("Undo");
-	}
-
-	public String getString(char[] response) {
-		String str = "";
-		for (char c : response) {
-			str += c;
-		}
-		return str;
 	}
 
 	@Override
