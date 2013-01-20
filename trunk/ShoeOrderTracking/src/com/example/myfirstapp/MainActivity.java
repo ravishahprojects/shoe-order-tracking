@@ -13,6 +13,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +29,6 @@ import com.example.myfirstapp.util.Utility;
 public class MainActivity extends Activity implements SuccessHandler {
 
 	final Context context = this;
-	private boolean headerRow;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,32 +74,26 @@ public class MainActivity extends Activity implements SuccessHandler {
 
 	private void processGetWorkResponse(String responseString)
 			throws JSONException {
-		System.out.println("JSon Reply ::" + responseString);
 		JSONArray vehicle = new JSONArray(responseString);
 		processViewForResponse(vehicle);
 	}
 
-	private void processViewForResponse(JSONArray vehicle) throws JSONException {
-		ScrollView sv = new ScrollView(this);
-		TableLayout ll = new TableLayout(this);
-		ll.setBackgroundColor(Color.BLACK);
+	private void processViewForResponse(JSONArray result) throws JSONException {
+		LayoutInflater inflater = getLayoutInflater();
 
-		headerRow = true;
-
-		for (int i = 0; i < vehicle.length(); i++) {
+		ScrollView sView = (ScrollView) inflater.inflate(
+				R.layout.activity_main, null);
+		TableLayout tableLayout = (TableLayout) sView.getChildAt(0);
+		for (int i = 0; i < result.length(); i++) {
 			int j = 0;
 			TableRow tbrow = new TableRow(this);
-			JSONObject row = vehicle.getJSONObject(i);
+			JSONObject row = result.getJSONObject(i);
 			processKeys(i, j, tbrow, row);
-			ll.addView(tbrow);
-			if (headerRow) {
-				headerRow = false;
-				i--;
-			}
-			// alert(row.getString("ono") + " - " + row.getString("style"));
+			tableLayout.addView(tbrow);
 		}
-		sv.addView(ll);
-		setContentView(sv);
+		sView.removeAllViews();
+		sView.addView(tableLayout);
+		setContentView(sView);
 	}
 
 	private void processKeys(int i, int j, TableRow tbrow, JSONObject row)
@@ -117,27 +111,20 @@ public class MainActivity extends Activity implements SuccessHandler {
 		String key = next.toString();
 		if (Constants.keysToProcess.contains(key)) {
 			int id = i * ++j;
-			if (headerRow) {
-				txtLabel = key + "|";
+			txtLabel = row.getString(key);
+			if ("id".equalsIgnoreCase(key)) {
+				Button btn = Utility.createAndGetButton(
+						Integer.valueOf(txtLabel.toString()).intValue(),
+						Constants.UPDATE_WORK, context);
+				BtnClickListener clickListener = new BtnClickListener();
+				clickListener.setHandler(this);
+				btn.setOnClickListener(clickListener);
+				tbrow.addView(btn);
+			} else {
+				txtLabel = txtLabel + "|";
 				TextView view = Utility.createAndGetTextView(id, txtLabel,
 						context);
 				tbrow.addView(view);
-			} else {
-				txtLabel = row.getString(key);
-				if ("id".equalsIgnoreCase(key)) {
-					Button btn = Utility.createAndGetButton(
-							Integer.valueOf(txtLabel.toString()).intValue(),
-							Constants.UPDATE_WORK, context);
-					BtnClickListener clickListener = new BtnClickListener();
-					clickListener.setHandler(this);
-					btn.setOnClickListener(clickListener);
-					tbrow.addView(btn);
-				} else {
-					txtLabel = txtLabel + "|";
-					TextView view = Utility.createAndGetTextView(id, txtLabel,
-							context);
-					tbrow.addView(view);
-				}
 			}
 		}
 		return j;
