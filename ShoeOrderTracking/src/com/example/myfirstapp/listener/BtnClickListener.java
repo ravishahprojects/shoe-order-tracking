@@ -27,7 +27,12 @@ public class BtnClickListener implements OnClickListener {
 		Button btn = (Button) v;
 		int id = btn.getId();
 		try {
-			updateWork(id, btn);
+			CharSequence text = btn.getText();
+			if (Constants.UPDATE_WORK.equalsIgnoreCase(text.toString())) {
+				updateWork(id, btn);
+			} else if (Constants.UNDO.equalsIgnoreCase(text.toString())) {
+				undoUpdateWork(id, btn);
+			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -46,11 +51,30 @@ public class BtnClickListener implements OnClickListener {
 	private String updateWork(int id, Button btn)
 			throws ClientProtocolException, IOException {
 		String url = Constants.HTTP_SERVICE1_SVC + Constants.SEPARATOR
-				+ Constants.UPDATE_WORK + Constants.SEPARATOR + id;
-		// Utility.alert(url, context);
+				+ Constants.WS_UPDATE_WORK_API + Constants.SEPARATOR + id;
 		char[] response = Utility.getHttpRequest(url);
 		processUpdateWorkResponse(response, id, btn);
 		return response.toString();
+	}
+
+	private String undoUpdateWork(int id, Button btn) throws ClientProtocolException,
+			IOException {
+		String url = Constants.HTTP_SERVICE1_SVC + Constants.SEPARATOR
+				+ Constants.WS_UNDO_API + Constants.SEPARATOR + id;
+		char[] response = Utility.getHttpRequest(url);
+		processUndoUpdateWorkResponse(response, id, btn);
+		return response.toString();
+	}
+
+	private void processUndoUpdateWorkResponse(char[] response, int id,
+			Button btn) {
+		String str = Utility.getNormalizedString(response);
+		// Show alerts based on the response
+		if (Constants.UPDATE_WORK_SUCCESS.equalsIgnoreCase(str)) {
+			handleSuccess(btn);
+		} else {
+			handleFailure(btn);
+		}
 	}
 
 	private void processUpdateWorkResponse(char[] response, int id, Button btn) {
