@@ -127,7 +127,7 @@ public class MainActivity extends Activity implements SuccessHandler {
 				if ("id".equalsIgnoreCase(key)) {
 					Button btn = Utility.createAndGetButton(
 							Integer.valueOf(txtLabel.toString()).intValue(),
-							"Update Work", context);
+							Constants.UPDATE_WORK, context);
 					BtnClickListener clickListener = new BtnClickListener();
 					clickListener.setHandler(this);
 					btn.setOnClickListener(clickListener);
@@ -153,8 +153,13 @@ public class MainActivity extends Activity implements SuccessHandler {
 	@Override
 	public void handleSuccess(View v) {
 		Button btn = (Button) v;
-		btn.setBackgroundColor(Color.GREEN);
-		btn.setText("Undo");
+		if (btn.getText().toString().equalsIgnoreCase(Constants.UPDATE_WORK)) {
+			btn.setBackgroundColor(Color.GREEN);
+			btn.setText(Constants.UNDO);
+		} else if (btn.getText().toString().equalsIgnoreCase(Constants.UNDO)) {
+			btn.setBackgroundColor(Color.GRAY);
+			btn.setText(Constants.UPDATE_WORK);
+		}
 	}
 
 	@Override
