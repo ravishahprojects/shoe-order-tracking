@@ -24,6 +24,7 @@ public class Utility {
 		btn.setId(id);
 		btn.setText(text);
 		btn.setTextColor(Color.WHITE);
+		btn.setBackgroundColor(Color.GRAY);
 		return btn;
 	}
 
