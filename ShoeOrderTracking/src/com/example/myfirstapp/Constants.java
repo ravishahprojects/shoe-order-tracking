@@ -12,6 +12,8 @@ public class Constants {
 	public static final String WS_UNDO_API = "UndoUpdateWork";
 	public static final String HTTP_SERVICE1_SVC = "http://192.168.100.1:8081/Service1.svc";
 	public static final String SEPARATOR = "/";
+	public static final String DEPT_NAME = "DEPT_NAME";
+	public static final String PROPERTIES_FILE = "settings.properties";
 
 	public static final Set<String> keysToProcess = new HashSet<String>();
 
