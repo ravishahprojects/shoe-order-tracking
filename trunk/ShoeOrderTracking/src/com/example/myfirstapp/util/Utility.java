@@ -10,6 +10,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.example.myfirstapp.MainActivity;
+import com.example.myfirstapp.R;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -29,11 +32,12 @@ public class Utility {
 	}
 
 	public static TextView createAndGetTextView(final int id,
-			final CharSequence text, Context context) {
+			final CharSequence text, Context context, MainActivity activity) {
 		final TextView tv = new TextView(context);
 		tv.setId(id);
 		tv.setText(text);
 		tv.setTextColor(Color.WHITE);
+		tv.setBackgroundResource(R.drawable.cell_shape);
 		return tv;
 	}
 
