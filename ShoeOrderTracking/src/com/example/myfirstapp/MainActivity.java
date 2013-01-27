@@ -183,7 +183,7 @@ public class MainActivity extends Activity implements SuccessHandler {
 				tbrow.addView(btn);
 			} else {
 				// txtLabel = txtLabel + "|";
-				TextView view = Utility.createAndGetTextView(id, txtLabel, context);
+				TextView view = Utility.createAndGetTextView(id, txtLabel, context, this);
 				tbrow.addView(view);
 			}
 		}
