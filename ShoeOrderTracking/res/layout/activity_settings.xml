@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill"
+    android:background="#000000" >
+
+    <TableLayout
+        android:id="@+id/settingsTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill" >
+
+        <EditText
+            android:id="@+id/edtDeptName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="40"
+            android:gravity="center_vertical|center_horizontal|center"
+            android:hint="@string/deptNameHint"
+            android:inputType="text"
+            android:lines="1"
+            android:maxLines="1"
+            android:minLines="1"
+            android:textColor="#FFFFFF" >
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/btnUpdateDept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="handleUpdateSettingsButton"
+            android:text="@string/btnUpdateSettings" />
+    </TableLayout>
+
+</ScrollView>

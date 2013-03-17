@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Shoe Order Tracking</string>
+    <string name="refresh">Refresh</string>
+    <string name="deptName">Department Name</string>
+    <string name="btnUpdateSettings">Update Settings</string>
+    <string name="black">black</string>
+    <string name="color">color</string>
+    <string name="id">id</string>
+    <string name="ono">ono</string>
+    <string name="mainTable">mainTable</string>
+    <string name="menu_settings">Settings</string>
+    <string name="deptNameHint">Please enter the department name</string>
+
+</resources>
