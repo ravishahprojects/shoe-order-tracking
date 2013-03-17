@@ -160,6 +160,7 @@ public class ShoeOrderTrackingActivity extends Activity implements SuccessHandle
 		setContentView(sView);
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void processKeys(int i, int j, TableRow tbrow, JSONObject row) throws JSONException {
 		Iterator keys = row.keys();
 		while (keys.hasNext()) {
@@ -167,6 +168,7 @@ public class ShoeOrderTrackingActivity extends Activity implements SuccessHandle
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private int processKey(int i, int j, TableRow tbrow, JSONObject row, Iterator keys) throws JSONException {
 		CharSequence txtLabel;
 		Object next = keys.next();
