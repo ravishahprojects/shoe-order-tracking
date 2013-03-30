@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.as.shoeordertracking.Constants;
+import com.as.shoeordertracking.ShoeOrderTrackingActivity;
 import com.as.shoeordertracking.util.Utility;
 
 /**
@@ -25,13 +26,17 @@ public class BtnClickListener implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		Button btn = (Button) v;
-		int id = btn.getId();
+		//int id = btn.getId();
 		try {
 			CharSequence text = btn.getText();
-			if (Constants.UPDATE_WORK.equalsIgnoreCase(text.toString())) {
-				updateWork(id, btn);
-			} else if (Constants.UNDO.equalsIgnoreCase(text.toString())) {
-				undoUpdateWork(id, btn);
+			if (Constants.UPDATE_WORK_IN.equalsIgnoreCase(text.toString())) {
+				updateWork(btn);				
+			} else if (Constants.UNDO_IN.toLowerCase().contains("undo")) {  //equalsIgnoreCase(text.toString())) {
+				undoUpdateWork(btn);
+			} else if (Constants.UPDATE_WORK_OUT.equalsIgnoreCase(text.toString())) {
+				updateWork(btn);
+			} else if (Constants.UNDO_OUT.toLowerCase().contains("undo")) { //equalsIgnoreCase(text.toString())) {
+				undoUpdateWork(btn);
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -48,21 +53,31 @@ public class BtnClickListener implements OnClickListener {
 		this.handler = handler;
 	}
 
-	private String updateWork(int id, Button btn)
+	private String updateWork(Button btn)
 			throws ClientProtocolException, IOException {
+		String[] s = btn.getTag().toString().split("-");
+		String id = s[0];
+		String opType = s[1];
+		String deptName = s[2];
 		String url = Constants.HTTP_SERVICE1_SVC + Constants.SEPARATOR
-				+ Constants.WS_UPDATE_WORK_API + Constants.SEPARATOR + id;
+				+ Constants.WS_UPDATE_WORK_API + Constants.SEPARATOR + id
+				+ Constants.SEPARATOR + deptName + Constants.SEPARATOR + opType ;
 		char[] response = Utility.getHttpRequest(url);
-		processUpdateWorkResponse(response, id, btn);
+		processUpdateWorkResponse(response, Integer.valueOf(id).intValue(), btn);
 		return response.toString();
 	}
 
-	private String undoUpdateWork(int id, Button btn) throws ClientProtocolException,
+	private String undoUpdateWork(Button btn) throws ClientProtocolException,
 			IOException {
+		String[] s = btn.getTag().toString().split("-");
+		String id = s[0];
+		String opType = s[1];
+		String deptName = s[2];
 		String url = Constants.HTTP_SERVICE1_SVC + Constants.SEPARATOR
-				+ Constants.WS_UNDO_API + Constants.SEPARATOR + id;
+				+ Constants.WS_UNDO_API + Constants.SEPARATOR + id
+				+ Constants.SEPARATOR + deptName + Constants.SEPARATOR + opType;
 		char[] response = Utility.getHttpRequest(url);
-		processUndoUpdateWorkResponse(response, id, btn);
+		processUndoUpdateWorkResponse(response, Integer.valueOf(id).intValue(), btn);
 		return response.toString();
 	}
 
