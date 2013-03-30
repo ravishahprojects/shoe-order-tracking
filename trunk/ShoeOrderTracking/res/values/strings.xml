@@ -10,7 +10,10 @@
     <string name="id">id</string>
     <string name="ono">ono</string>
     <string name="mainTable">mainTable</string>
+    <string name="dataTable1">dataTable1</string>
     <string name="menu_settings">Settings</string>
     <string name="deptNameHint">Please enter the department name</string>
-
+	<string name="ipAddressHint">Please enter the server\'s ip address</string>	
+	<string name="temp1"></string>
+	<string name="temp2"></string>
 </resources>
