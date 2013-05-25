@@ -13,8 +13,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
+//import android.graphics.drawable.Drawable;
+//import android.graphics.drawable.LayerDrawable;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.Button;
@@ -33,7 +33,7 @@ public class Utility {
 		btn.setTextColor(Color.WHITE);
 		//btn.setBackgroundColor(Color.GRAY);
 		//btn.setBackgroundResource(R.drawable.cell_shape);
-		btn.setTextSize(TypedValue.COMPLEX_UNIT_PT,5);
+		//btn.setTextSize(TypedValue.COMPLEX_UNIT_PT,6);
 		
 		btn.setTag(id+"-"+text+"-"+deptName);
 		
