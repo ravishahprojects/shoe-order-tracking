@@ -13,7 +13,7 @@
     <string name="dataTable1">dataTable1</string>
     <string name="menu_settings">Settings</string>
     <string name="deptNameHint">Please enter the department name</string>
-	<string name="ipAddressHint">Please enter the server\'s ip address</string>	
-	<string name="temp1"></string>
-	<string name="temp2"></string>
+	<string name="ipAddressHint">Please enter the server\'s ip address</string>
+	<string name="prevDeptHint">Please enter previous department name</string>	
+	<string name="dtfrom">Date From</string>
 </resources>
